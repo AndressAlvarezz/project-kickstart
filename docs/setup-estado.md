@@ -24,9 +24,9 @@
 - [x] A3 Contexto compartido para agentes
 - [x] A4 Permisos y hooks de Claude Code
 - [x] A5 CI y plantillas de GitHub
-- [ ] A6 Repositorio en GitHub
-- [ ] A7 Configuración profesional del repo
-- [ ] A8 Revisores en GitHub
+- [x] A6 Repositorio en GitHub — <https://github.com/AndressAlvarezz/project-kickstart> (privado), CI verde
+- [x] A7 Configuración profesional del repo (parcial: ver "Al activar Pro o hacer público")
+- [x] A8 Revisores en GitHub — Claude: app instalada + secret CLAUDE_CODE_OAUTH_TOKEN (falta PR con claude.yml). Codex cloud: pendiente de confirmar
 - [ ] A9 PR de prueba de extremo a extremo
 - [ ] A10 Cierre
 
@@ -35,3 +35,19 @@
 - Icono del plugin (`.claude-plugin/icon.png`, PNG cuadrado 512–2048 px): aviso del validador oficial; necesario antes de enviar al directorio de plugins. Solo cuenta el primer envío.
 - `npm audit`: aviso de KaTeX (dependencia transitiva de desarrollo vía `markdownlint`, sin corrección disponible). No afecta al plugin publicado; Dependabot lo vigilará.
 - Activar GitHub Pro vía Student Developer Pack → permitiría el ruleset en privado.
+- Badge de CI en el README: va en la PR de prueba de A9 (no directo a `main`).
+- PRs #1–#4 de Dependabot (actions v4 → versiones nuevas, sin el aviso de Node 20): revisar y fusionar tras A7.
+
+## Al activar Pro o hacer público el repo
+
+Aplicado en A7: solo squash, borrar rama al fusionar, sin wiki, alertas de Dependabot y correcciones automáticas de seguridad, etiquetas.
+Rechazado por GitHub en privado sin Pro (aplicar entonces):
+
+```sh
+gh api -X POST repos/:owner/:repo/rulesets --input .github/rulesets/main-protected.json
+gh repo edit --enable-auto-merge
+gh repo edit --enable-secret-scanning --enable-secret-scanning-push-protection
+gh api repos/:owner/:repo/rulesets   # verificar
+```
+
+Mientras tanto: sin `--auto` en los merges (fusionar a mano tras CI verde) y la única barrera contra push a `main` son los `deny` de `.claude/settings.json`.
