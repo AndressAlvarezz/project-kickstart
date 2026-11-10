@@ -1,6 +1,7 @@
 # project-kickstart
 
-<!-- CI badge is added in the first PR after the repository is created -->
+[![CI](https://github.com/AndressAlvarezz/project-kickstart/actions/workflows/ci.yml/badge.svg)](https://github.com/AndressAlvarezz/project-kickstart/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A [Claude Code](https://claude.com/claude-code) plugin that bootstraps and runs
 professional GitHub projects: issue → plan → pull request → review → merge → release.
