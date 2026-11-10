@@ -1,0 +1,35 @@
+name: Bug report
+description: Something does not work as expected
+title: "fix: "
+labels: [bug]
+body:
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run `/project-kickstart:...`
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: Include error messages or the relevant part of the conversation.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, shell, Claude Code version (`claude --version`), plugin version.
+      placeholder: "Windows 11, PowerShell 5.1, Claude Code 2.1.x, project-kickstart 0.1.0"
+    validations:
+      required: true

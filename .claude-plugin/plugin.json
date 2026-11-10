@@ -1,0 +1,13 @@
+{
+  "name": "project-kickstart",
+  "version": "0.1.0",
+  "description": "Bootstrap and run professional GitHub projects with Claude Code: issue, plan, PR, review, merge and release.",
+  "author": {
+    "name": "Andres Alvarez",
+    "url": "https://github.com/AndressAlvarezz"
+  },
+  "homepage": "https://github.com/AndressAlvarezz/project-kickstart",
+  "repository": "https://github.com/AndressAlvarezz/project-kickstart",
+  "license": "MIT",
+  "keywords": ["workflow", "github", "project-setup", "pull-requests", "code-review", "conventional-commits"]
+}

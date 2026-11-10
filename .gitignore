@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Secrets
+.env
+.env.*
+secrets/
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,16 @@
+{
+  "name": "project-kickstart",
+  "description": "Professional GitHub project workflows for Claude Code.",
+  "owner": {
+    "name": "Andres Alvarez",
+    "url": "https://github.com/AndressAlvarezz"
+  },
+  "plugins": [
+    {
+      "name": "project-kickstart",
+      "source": "./",
+      "description": "Bootstrap and run professional GitHub projects with Claude Code: issue, plan, PR, review, merge and release.",
+      "version": "0.1.0"
+    }
+  ]
+}
