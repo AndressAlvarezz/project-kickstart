@@ -13,7 +13,7 @@
 | 4 | Plataforma | Multiplataforma: Windows (PowerShell / Git Bash), macOS y Linux. |
 | 5 | Visibilidad | Privado mientras se prueba → público al publicar v1.0.0. Sin GitHub Pro: en A7 se aplican ajustes, seguridad y etiquetas; el ruleset de `main` se aplica al hacer el repo público. |
 | 6 | Licencia | MIT (uso libre y gratuito para todos; solo exige conservar el aviso de copyright) |
-| 7 | Revisores en GitHub | Codex cloud (code review + automatic reviews) **y** app de Claude para GitHub. |
+| 7 | Revisores | Solo Codex en local (plugin `codex@openai-codex`): revisión de planes (`/codex:adversarial-review`) y de código (`/codex:review`). Sin app de Claude en GitHub (descartada para no consumir cuota de Claude Pro); Codex cloud omitido por ahora. |
 | 8 | Restricciones | Debe funcionar para cualquier usuario: idioma del contenido en inglés (respondiendo en el idioma del usuario), sin depender de herramientas opcionales (Codex, `just`) de forma obligatoria (detectar y ofrecer alternativas), comandos compatibles con PowerShell y bash, sin dependencias de runtime. |
 
 ## Bloques
@@ -26,16 +26,15 @@
 - [x] A5 CI y plantillas de GitHub
 - [x] A6 Repositorio en GitHub — <https://github.com/AndressAlvarezz/project-kickstart> (privado), CI verde
 - [x] A7 Configuración profesional del repo (parcial: ver "Al activar Pro o hacer público")
-- [x] A8 Revisores en GitHub — Claude: app instalada + secret CLAUDE_CODE_OAUTH_TOKEN (falta PR con claude.yml). Codex cloud: pendiente de confirmar
-- [ ] A9 PR de prueba de extremo a extremo
-- [ ] A10 Cierre
+- [x] A8 Revisores en GitHub — omitido: revisión solo con Codex en local. App de Claude y secret retirados por el usuario.
+- [x] A9 PR de prueba de extremo a extremo — #5 → PR #6 fusionada con squash (2a8a310), CI verde en main
+- [x] A10 Cierre — arranque completado el 2026-11-11
 
 ## Pendientes anotados
 
 - Icono del plugin (`.claude-plugin/icon.png`, PNG cuadrado 512–2048 px): aviso del validador oficial; necesario antes de enviar al directorio de plugins. Solo cuenta el primer envío.
 - `npm audit`: aviso de KaTeX (dependencia transitiva de desarrollo vía `markdownlint`, sin corrección disponible). No afecta al plugin publicado; Dependabot lo vigilará.
 - Activar GitHub Pro vía Student Developer Pack → permitiría el ruleset en privado.
-- Badge de CI en el README: va en la PR de prueba de A9 (no directo a `main`).
 - PRs #1–#4 de Dependabot (actions v4 → versiones nuevas, sin el aviso de Node 20): revisar y fusionar tras A7.
 
 ## Al activar Pro o hacer público el repo
@@ -51,3 +50,11 @@ gh api repos/:owner/:repo/rulesets   # verificar
 ```
 
 Mientras tanto: sin `--auto` en los merges (fusionar a mano tras CI verde) y la única barrera contra push a `main` son los `deny` de `.claude/settings.json`.
+
+## Resumen del arranque
+
+- Repo: <https://github.com/AndressAlvarezz/project-kickstart> (privado hasta v1.0.0).
+- Activo: solo squash merge, borrado de rama al fusionar, alertas y correcciones de Dependabot, plantillas de issue/PR, CI (`check` + `cross-platform` Windows/macOS + `pr-title`), etiquetas, `deny` locales en `.claude/settings.json`.
+- Pendiente de Pro o repo público: ruleset de `main`, auto-merge, secret scanning (ver sección anterior).
+- Revisión: Codex en local (`/codex:adversarial-review` para planes, `/codex:review` para código).
+- Siguiente: primera feature con `/proyecto feature`.
