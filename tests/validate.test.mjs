@@ -7,7 +7,7 @@ import { parseFrontmatter, validatePlugin } from '../scripts/validate.mjs';
 
 const repoRoot = resolve(import.meta.dirname, '..');
 
-function makeFixture({ pluginVersion = '1.0.0', marketVersion = '1.0.0', skillName = 'demo' } = {}) {
+function makeFixture({ pluginVersion = '1.0.0', marketVersion = '1.0.0', skillName = 'demo', extraFrontmatter = '' } = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'kickstart-'));
   mkdirSync(join(dir, '.claude-plugin'));
   mkdirSync(join(dir, 'skills', 'demo'), { recursive: true });
@@ -25,7 +25,7 @@ function makeFixture({ pluginVersion = '1.0.0', marketVersion = '1.0.0', skillNa
   );
   writeFileSync(
     join(dir, 'skills', 'demo', 'SKILL.md'),
-    `---\nname: ${skillName}\ndescription: A demo skill\n---\n\n# Demo\n`,
+    `---\nname: ${skillName}\ndescription: A demo skill\n${extraFrontmatter}---\n\n# Demo\n`,
   );
   return dir;
 }
@@ -67,4 +67,22 @@ test('detects missing manifests', (t) => {
   const errors = validatePlugin(dir).join('\n');
   assert.match(errors, /missing file: .*plugin\.json/);
   assert.match(errors, /missing directory: skills/);
+});
+
+test('accepts argument-hint and boolean disable-model-invocation', (t) => {
+  const dir = makeFixture({ extraFrontmatter: 'argument-hint: <name>\ndisable-model-invocation: true\n' });
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  assert.deepEqual(validatePlugin(dir), []);
+});
+
+test('rejects a non-boolean disable-model-invocation', (t) => {
+  const dir = makeFixture({ extraFrontmatter: 'disable-model-invocation: yes\n' });
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  assert.match(validatePlugin(dir).join('\n'), /"disable-model-invocation" must be true or false/);
+});
+
+test('rejects an empty argument-hint', (t) => {
+  const dir = makeFixture({ extraFrontmatter: 'argument-hint:\n' });
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  assert.match(validatePlugin(dir).join('\n'), /"argument-hint" must be a non-empty string/);
 });

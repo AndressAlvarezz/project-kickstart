@@ -86,6 +86,12 @@ export function validatePlugin(rootDir) {
     else if (fm.description.length > MAX_DESCRIPTION) {
       errors.push(`skills/${dir}/SKILL.md: "description" exceeds ${MAX_DESCRIPTION} characters`);
     }
+    if ('disable-model-invocation' in fm && !['true', 'false'].includes(fm['disable-model-invocation'])) {
+      errors.push(`skills/${dir}/SKILL.md: "disable-model-invocation" must be true or false`);
+    }
+    if ('argument-hint' in fm && !fm['argument-hint']) {
+      errors.push(`skills/${dir}/SKILL.md: "argument-hint" must be a non-empty string`);
+    }
   }
   return errors;
 }

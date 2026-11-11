@@ -1,0 +1,32 @@
+# Template: adapt before writing to .github/workflows/ci.yml.
+# Placeholders:
+#   - "toolchain setup": replace with the stack's setup action(s)
+#     (actions/setup-node, actions/setup-python, a C/C++ toolchain...) or delete it.
+#   - Without just: delete the setup-just step and replace each `just <task>`
+#     with the native command recorded in AGENTS.md.
+# The job name `check` is the status check the ruleset requires.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: extractions/setup-just@v2
+      # toolchain setup
+      - run: just setup
+      - run: just lint
+      - run: just test
+      - run: just build

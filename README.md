@@ -6,16 +6,38 @@
 A [Claude Code](https://claude.com/claude-code) plugin that bootstraps and runs
 professional GitHub projects: issue → plan → pull request → review → merge → release.
 
-> **Status:** early development (v0.1.0). The workflow is being ported from
-> its original version and is not ready for general use yet.
+> **Status:** early development (v0.1.0). Tested with Claude Code 2.1.322.
+> Feedback and bug reports are welcome.
 
 ## What it does
 
-- **`init`**: sets up the repository, CI, templates, labels and branch protection.
-- **`feature <name>`**: drives a feature from an issue to a squash-merged PR,
-  with a written plan, tests first and an optional Codex review.
-- **`release`**: proposes a semantic version and publishes a GitHub release.
-- **`status`**: shows where the project stands and what is pending.
+| Command | What it does |
+| --- | --- |
+| `/project-kickstart:init` | Sets up the project and its GitHub repository: structure, `AGENTS.md`/`CLAUDE.md`, Claude Code permissions, CI, templates, labels, branch protection and an end-to-end test PR. |
+| `/project-kickstart:feature <name>` | Drives a feature from an issue to a squash-merged PR: plan, plan review, tests first, implementation, code review, merge. |
+| `/project-kickstart:release` | Proposes the next semantic version and publishes a GitHub release through a release PR. |
+| `/project-kickstart:status` | Read-only report of where the project stands and the next step. |
+
+Every skill works in blocks and stops at checkpoints, talks to you in your
+language and writes everything to your project in English. Pushes, merges,
+repository settings and anything else that leaves your machine always need your
+explicit confirmation.
+
+`init`, `feature` and `release` only run when you type them; `status` can also be
+used by Claude when you ask where things stand.
+
+### Optional tools
+
+Only Git and the GitHub CLI are required. The skills detect the rest:
+
+- **just**: without it, your project's native commands (`npm run test`,
+  `make`…) are recorded in `AGENTS.md` and used instead.
+- **Codex** (plugin or CLI): reviews plans and code. Without it, Claude offers a
+  self-review, clearly labelled as not independent, or you can skip the review.
+- **Private repository**: secret scanning needs GitHub Secret Protection, so it
+  is skipped unless your organisation has it. On a free plan, rulesets and
+  auto-merge are skipped too. Skipped settings are recorded as pending in
+  `docs/setup-status.md`.
 
 ## Installation
 
@@ -36,7 +58,7 @@ Requires Node.js ≥ 20.11 and [just](https://github.com/casey/just).
 
 ```sh
 just setup   # install dev dependencies
-just lint    # lint Markdown and validate manifests and skills
+just lint    # lint Markdown, validate manifests and skills, run content checks
 just test    # run the test suite
 just build   # run the official `claude plugin validate` when available
 ```
@@ -45,8 +67,9 @@ just build   # run the official `claude plugin validate` when available
 
 ```text
 .claude-plugin/   plugin.json and marketplace.json manifests
-skills/           the plugin's skills (one folder per skill, each with SKILL.md)
-scripts/          validation tooling (no runtime dependencies)
+skills/           init, feature, release, status (SKILL.md + templates/)
+references/       conventions shared by every skill
+scripts/          validation and content checks (no runtime dependencies)
 tests/            node:test test suite
 docs/             architecture, plans and decision records
 ```

@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(just:*)",
+      "Bash(git status)", "Bash(git diff:*)", "Bash(git log:*)", "Bash(git add:*)",
+      "Bash(git commit:*)", "Bash(git switch:*)", "Bash(git fetch:*)", "Bash(git pull --ff-only:*)",
+      "Bash(gh issue view:*)", "Bash(gh issue list:*)", "Bash(gh pr view:*)", "Bash(gh pr list:*)",
+      "Bash(gh pr checks:*)", "Bash(gh pr diff:*)", "Bash(gh pr status:*)", "Bash(gh run:*)",
+      "Bash(gh label list:*)", "Bash(gh repo view:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)", "Bash(gh issue create:*)", "Bash(gh issue comment:*)", "Bash(gh issue edit:*)",
+      "Bash(gh issue develop:*)", "Bash(gh pr create:*)", "Bash(gh pr comment:*)", "Bash(gh pr edit:*)",
+      "Bash(gh pr ready:*)", "Bash(gh pr merge:*)", "Bash(gh repo create:*)", "Bash(gh repo edit:*)",
+      "Bash(gh api:*)", "Bash(gh release:*)", "Bash(gh label create:*)", "Bash(git branch -d:*)"
+    ],
+    "deny": [
+      "Read(./.env)", "Read(./.env.*)", "Read(./secrets/**)",
+      "Bash(git push --force:*)", "Bash(git push -f:*)", "Bash(git push origin main:*)",
+      "Bash(git reset --hard:*)", "Bash(gh repo delete:*)", "Bash(gh secret:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [ { "type": "command", "command": "just lint" } ]
+      }
+    ]
+  }
+}
