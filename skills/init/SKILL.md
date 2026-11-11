@@ -155,7 +155,7 @@ Security (skip secret scanning on a private repository with a free plan):
 
 ```bash
 gh repo edit --enable-secret-scanning --enable-secret-scanning-push-protection
-gh api -X PUT repos/{owner}/{repo}/vulnerability-alerts
+gh api -X PUT "repos/{owner}/{repo}/vulnerability-alerts"
 ```
 
 Labels:
@@ -174,10 +174,10 @@ required checks must match the real CI job names), save it as
 `.github/rulesets/main-protected.json` and apply it:
 
 ```bash
-gh api -X POST repos/{owner}/{repo}/rulesets --input .github/rulesets/main-protected.json
+gh api -X POST "repos/{owner}/{repo}/rulesets" --input .github/rulesets/main-protected.json
 ```
 
-Verify with `gh api repos/{owner}/{repo}/rulesets`.
+Verify with `gh api "repos/{owner}/{repo}/rulesets"`.
 `required_approving_review_count` is 0 because you cannot approve your own PRs in
 a personal repository; required CI and resolved review threads are the gate.
 Raise it to 1 if there are more collaborators.
