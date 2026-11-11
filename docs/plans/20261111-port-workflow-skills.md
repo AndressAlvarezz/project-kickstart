@@ -81,7 +81,12 @@ the pending commands to `docs/setup-status.md`, and merge later without `--auto`
   file and give the user the exact copy command with absolute paths.
 - PowerShell 5.1 has no `&&`: one command per call, or `;` with `if ($?)`.
 - Use `--body-file` with a temp file for every issue/PR/comment body.
-- `gh issue develop --checkout` with uncommitted changes: stash first, pop after.
+- Uncommitted changes before `gh issue develop --checkout` (B0): stop, as the
+  original B0 does, and ask the user to commit, stash or abort. If they choose
+  stash, use a named stash (`git stash push -u -m "kickstart: before #<n>"`),
+  check that it succeeded, and never pop it automatically: the changes belong to
+  the previous branch, so tell the user how to restore them there
+  (`git switch <previous>` then `git stash pop`). The new branch starts clean.
 - Ruleset required checks must match real job names, including matrix suffixes
   (`cross-platform (windows-latest)`).
 - Dependabot opens PRs right after the first push: mention it in A6.
@@ -97,9 +102,16 @@ the pending commands to `docs/setup-status.md`, and merge later without `--auto`
   - no Spanish left in `skills/` and `references/` (characters `¿¡ñ` and accented
     vowels, plus a short list of words from the original: `rama`, `hecho cuando`, `punto de control`…);
   - every JSON template parses;
-  - a skill that contains an outward-facing command (`git push`, `gh pr merge`,
-    `gh repo create`, `gh repo edit`, `gh api -X`, `gh release create`) also contains
-    the word "confirm".
+  - confirmation per action block: skills and `references/conventions.md` are
+    split into sections (each `##`/`###` heading starts one); every section that
+    contains an outward-facing command must itself contain a confirmation
+    instruction (`confirm`, case-insensitive). A confirmation in another section
+    does not count. Outward-facing commands: `git push`, `gh repo create`,
+    `gh repo edit`, `gh api` with `-X`/`--method` other than `GET`,
+    `gh issue create`, `gh issue comment`, `gh issue develop`, `gh pr create`,
+    `gh pr comment`, `gh pr merge`, `gh pr ready`, `gh label create`,
+    `gh release create`. The rule is a heuristic (it checks that the instruction
+    is there, not that Claude follows it), stated as such in the code.
 
 ## Files to create / modify
 
@@ -128,8 +140,14 @@ Automated (`just test`), written first in B4 and expected to fail until B5:
 4. All `${CLAUDE_PLUGIN_ROOT}` / `${CLAUDE_SKILL_DIR}` references resolve.
 5. No Spanish markers in shipped content.
 6. All JSON templates parse.
-7. Outward-facing commands are always paired with a confirmation instruction.
-8. Validator unit tests for the new frontmatter fields (valid and invalid).
+7. Every section with an outward-facing command has a confirmation instruction in
+   that same section. Unit tests of the checker, including negative cases: a
+   section with `git push` and no confirmation while another section confirms
+   (fails); unconfirmed `gh issue create`, `gh pr create` and `gh pr comment`
+   (fail); `gh api` with `GET` only (passes).
+8. The `feature` skill tells Claude to stop on a dirty working tree before B0 and
+   never to run `git stash pop` on the new branch.
+9. Validator unit tests for the new frontmatter fields (valid and invalid).
 
 Manual (recorded in the PR):
 
@@ -164,13 +182,18 @@ Manual (recorded in the PR):
 
 ## Codex review
 
-_Pending (B3)._
+`/codex:adversarial-review` on 2026-11-11, verdict *needs-attention*, two findings:
+
+| Finding | Severity | Decision | Change |
+| --- | --- | --- | --- |
+| Auto stash/pop carries previous work onto the new feature branch | medium | accepted | B0 stops on a dirty tree; optional named stash, never auto-popped (lessons section, test 8) |
+| A single "confirm" anywhere lets other actions pass unconfirmed; missing issue/PR/comment commands | medium | accepted | Per-section check, wider command list, negative tests (tooling section, test 7) |
 
 ## Status
 
 - [x] B1 Issue and branch
 - [x] B2 Plan
-- [ ] B3 Plan review (Codex)
+- [x] B3 Plan review (Codex)
 - [ ] B4 Tests + draft PR
 - [ ] B5 Implementation
 - [ ] B6 Verification
