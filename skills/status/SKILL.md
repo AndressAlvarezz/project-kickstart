@@ -15,8 +15,9 @@ installed or not authenticated); say what was skipped and why.
 
 1. Local state: `git rev-parse --is-inside-work-tree`, `git branch --show-current`,
    `git status --short`, `git log --oneline -5`.
-2. Setup: if `docs/setup-status.md` exists, read which blocks (A0–A10) are done
-   and its `## Pending` section.
+2. Setup: read `docs/setup-status.md`, or `docs/setup-estado.md` in projects set
+   up with the original Spanish workflow (its pending items may be under a
+   Spanish heading). Report which blocks (A0–A10) are done and what is pending.
 3. Feature: find the plan in `docs/plans/` whose issue number matches the current
    branch (`feat/<n>-…`), or else the most recent plan, and read its `## Status`.
 4. GitHub: `gh issue list --assignee "@me"`, `gh pr status`, and for the current

@@ -15,7 +15,9 @@ Each starts with a comment that lists its placeholders: fill them for this
 project and remove the comment; never copy a template blindly.
 
 If `docs/setup-status.md` already exists, read it, tell the user which blocks are
-done, and resume from the first unchecked block.
+done, and resume from the first unchecked block. Projects set up with the
+original Spanish workflow have `docs/setup-estado.md` instead: read that one and
+keep using it (do not rename it unless the user asks).
 
 ## A0. Environment
 

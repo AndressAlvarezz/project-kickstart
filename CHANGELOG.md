@@ -7,15 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `status` and `init` also read `docs/setup-estado.md`, the setup file of
+  projects created with the original workflow (#13).
+
+## [0.1.0] - 2026-11-11
+
 ### Added
 
 - Initial plugin structure, manifests, validation scripts and tests.
 - Workflow skills `init`, `feature`, `release` and `status`, ported to English
   from the original workflow, with shared conventions and templates (#9).
-- Optional `just` and Codex: detected, with fallbacks; private repositories on a
-  free plan skip the settings they cannot use (#9).
-- Content checks for shipped skills: paths, language, JSON templates and
-  confirmation before outward-facing actions (#9).
+- Optional `just` and Codex: detected, with fallbacks. Private repositories skip
+  the settings their plan cannot use, and secret scanning unless the
+  organisation has GitHub Secret Protection (#9).
+- Content checks for shipped skills: paths, language, JSON templates,
+  confirmation before outward-facing actions and PowerShell-unsafe arguments (#9).
 
 ### Changed
 
