@@ -211,7 +211,7 @@ that the local review flow works without them.
 Validate the whole circuit with a small change: adding the CI badge to the
 README. Each command that publishes something runs only after the user confirms.
 
-1. `gh issue create --title "docs: add CI badge to README" --label docs --assignee @me --body-file <temp>`
+1. `gh issue create --title "docs: add CI badge to README" --label docs --assignee "@me" --body-file <temp>`
 2. If `git status` shows uncommitted changes, stop and ask (see the `feature`
    skill's B0). Then
    `gh issue develop <n> --name docs/<n>-ci-badge --base main --checkout`.

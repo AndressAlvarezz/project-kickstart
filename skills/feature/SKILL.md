@@ -41,7 +41,7 @@ Use an existing issue if the user gives its number. Show the commands and run th
 only after the user confirms:
 
 ```bash
-gh issue create --title "feat: <name>" --label feature --label needs-plan --assignee @me --body-file <temp>
+gh issue create --title "feat: <name>" --label feature --label needs-plan --assignee "@me" --body-file <temp>
 gh issue develop <n> --name feat/<n>-<slug> --base main --checkout
 ```
 

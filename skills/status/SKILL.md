@@ -19,7 +19,7 @@ installed or not authenticated); say what was skipped and why.
    and its `## Pending` section.
 3. Feature: find the plan in `docs/plans/` whose issue number matches the current
    branch (`feat/<n>-…`), or else the most recent plan, and read its `## Status`.
-4. GitHub: `gh issue list --assignee @me`, `gh pr status`, and for the current
+4. GitHub: `gh issue list --assignee "@me"`, `gh pr status`, and for the current
    branch's PR `gh pr checks`.
 
 ## Report
