@@ -73,6 +73,26 @@ export function findUnconfirmedActions(markdown, file) {
   return errors;
 }
 
+// Arguments PowerShell rewrites when unquoted: `@me` is splatting (the argument
+// vanishes) and `{...}` starts a script block (the argument is split apart).
+const PWSH_PITFALLS = [
+  { test: (token) => token.startsWith('@me'), hint: 'quote "@me"' },
+  { test: (token) => /\{(owner|repo)\}/.test(token), hint: 'quote paths with {owner}/{repo}' },
+];
+
+/** Reports command arguments that break in PowerShell unless quoted. */
+export function findShellPitfalls(markdown, file) {
+  const errors = [];
+  markdown.split(/\r?\n/).forEach((line, index) => {
+    for (const token of line.split(/[\s`]+/)) {
+      if (!token || token.startsWith('"') || token.startsWith("'")) continue;
+      const pitfall = PWSH_PITFALLS.find((p) => p.test(token));
+      if (pitfall) errors.push(`${file}:${index + 1}: \`${token}\` breaks in PowerShell; ${pitfall.hint}`);
+    }
+  });
+  return errors;
+}
+
 const SPANISH_CHARS = /[¿¡ñÑáéíóúÁÉÍÓÚ]/;
 const SPANISH_WORDS = ['rama', 'ramas', 'fichero', 'ficheros', 'hecho cuando', 'punto de control', 'sigue todo'];
 const SPANISH_WORD_RE = new RegExp(`\\b(${SPANISH_WORDS.map((w) => w.replace(/ /g, '\\s+')).join('|')})\\b`, 'i');
@@ -141,6 +161,7 @@ export function runContentChecks(rootDir) {
     errors.push(...findSpanish(text, rel));
     if (!full.endsWith('.md')) continue;
     errors.push(...findUnconfirmedActions(text, rel));
+    errors.push(...findShellPitfalls(text, rel));
     const skill = /^skills\/([^/]+)\//.exec(rel)?.[1];
     const skillDir = skill ? join(rootDir, 'skills', skill) : undefined;
     errors.push(...findBrokenPaths(text, { pluginRoot: rootDir, skillDir, file: rel }));

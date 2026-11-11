@@ -10,6 +10,7 @@ import {
   findSpanish,
   findBrokenPaths,
   findInvalidJson,
+  findShellPitfalls,
   runContentChecks,
 } from '../scripts/content-checks.mjs';
 
@@ -98,6 +99,21 @@ test('gh api with a mutating method or fields needs confirmation', () => {
   for (const call of ['gh api -X PUT repos/o/r', 'gh api --method POST repos/o/r/rulesets', 'gh api repos/o/r -f name=x']) {
     assert.equal(findUnconfirmedActions(`## S\nRun \`${call}\`.\n`, 'x.md').length, 1, call);
   }
+});
+
+// --- findShellPitfalls ------------------------------------------------------
+
+test('findShellPitfalls reports unquoted @me and {owner}/{repo} paths', () => {
+  const md = 'Run `gh issue list --assignee @me`.\nThen `gh api repos/{owner}/{repo}/rulesets`.\n';
+  const errors = findShellPitfalls(md, 'x.md');
+  assert.equal(errors.length, 2);
+  assert.match(errors[0], /x\.md:1.*@me/);
+  assert.match(errors[1], /x\.md:2.*\{owner\}/);
+});
+
+test('findShellPitfalls accepts quoted arguments', () => {
+  const md = 'Run `gh issue list --assignee "@me"` and `gh api -X PUT \'repos/{owner}/{repo}/x\'`.\n';
+  assert.deepEqual(findShellPitfalls(md, 'x.md'), []);
 });
 
 // --- findSpanish ------------------------------------------------------------

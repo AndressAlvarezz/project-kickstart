@@ -111,6 +111,9 @@ The user may be on Windows PowerShell (5.1 or 7), Git Bash, macOS or Linux.
 
 - PowerShell 5.1 has no `&&` or `||`. Run one command per tool call, or use
   `;` and check `$?` (`git switch main; if ($?) { git pull --ff-only }`).
+- Quote arguments that PowerShell would rewrite: write `"@me"` (unquoted it is
+  splatting and the argument disappears) and `"repos/{owner}/{repo}/..."`
+  (unquoted braces start a script block and split the argument).
 - Avoid `$(...)` inside arguments, `export`, `rm -rf` and other shell-specific
   syntax in commands meant for both shells. When a command differs, give both
   variants.
