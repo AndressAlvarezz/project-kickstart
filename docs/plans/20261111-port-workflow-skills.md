@@ -189,6 +189,20 @@ Manual (recorded in the PR):
 | Auto stash/pop carries previous work onto the new feature branch | medium | accepted | B0 stops on a dirty tree; optional named stash, never auto-popped (lessons section, test 8) |
 | A single "confirm" anywhere lets other actions pass unconfirmed; missing issue/PR/comment commands | medium | accepted | Per-section check, wider command list, negative tests (tooling section, test 7) |
 
+### Code review (B7)
+
+`/codex:review --base main` on 2026-11-11, two P2 findings, plus one found by Claude while checking them:
+
+| Finding | Severity | Decision | Commit |
+| --- | --- | --- | --- |
+| Unquoted `@me` vanishes in PowerShell (splatting) | medium | applied | `fix: quote @me…` |
+| Secret scanning on private repos needs Secret Protection, not Pro | medium | applied | `fix: skip secret scanning…` |
+| Unquoted `repos/{owner}/{repo}` splits in PowerShell (script block) — found by Claude | medium | applied | `fix: quote gh api paths…` |
+| Prevent regressions: content check for both PowerShell pitfalls | — | applied | `test: catch unquoted PowerShell pitfalls…` |
+
+Deviations from the plan: `gh api` with `-f`/`--input` also counts as mutating;
+label `codex-reviewed` renamed to `reviewed` (the review may not be by Codex).
+
 ## Status
 
 - [x] B1 Issue and branch
@@ -197,6 +211,6 @@ Manual (recorded in the PR):
 - [x] B4 Tests + draft PR
 - [x] B5 Implementation
 - [x] B6 Verification
-- [ ] B7 Code review (Codex)
-- [ ] B8 Fixes
+- [x] B7 Code review (Codex)
+- [x] B8 Fixes
 - [ ] B9 Merge
