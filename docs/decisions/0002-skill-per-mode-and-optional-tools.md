@@ -1,6 +1,6 @@
 # 2. One skill per mode, shared conventions, optional tools
 
-- Status: proposed
+- Status: accepted
 - Date: 2026-11-11
 - Issue: #9
 
