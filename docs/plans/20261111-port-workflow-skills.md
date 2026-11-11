@@ -213,4 +213,4 @@ label `codex-reviewed` renamed to `reviewed` (the review may not be by Codex).
 - [x] B6 Verification
 - [x] B7 Code review (Codex)
 - [x] B8 Fixes
-- [ ] B9 Merge
+- [x] B9 Merge
