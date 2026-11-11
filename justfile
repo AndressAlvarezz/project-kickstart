@@ -12,6 +12,7 @@ setup:
 lint:
     npx --no-install markdownlint-cli2
     node scripts/validate.mjs
+    node scripts/content-checks.mjs
 
 # Run the test suite
 test:
@@ -20,4 +21,5 @@ test:
 # Check the plugin with the official Claude Code validator (if installed)
 build:
     node scripts/validate.mjs
+    node scripts/content-checks.mjs
     node scripts/official-validate.mjs
