@@ -194,7 +194,7 @@ Manual (recorded in the PR):
 - [x] B1 Issue and branch
 - [x] B2 Plan
 - [x] B3 Plan review (Codex)
-- [ ] B4 Tests + draft PR
+- [x] B4 Tests + draft PR
 - [ ] B5 Implementation
 - [ ] B6 Verification
 - [ ] B7 Code review (Codex)
