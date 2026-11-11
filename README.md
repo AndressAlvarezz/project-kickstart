@@ -34,8 +34,10 @@ Only Git and the GitHub CLI are required. The skills detect the rest:
   `make`…) are recorded in `AGENTS.md` and used instead.
 - **Codex** (plugin or CLI): reviews plans and code. Without it, Claude offers a
   self-review, clearly labelled as not independent, or you can skip the review.
-- **Private repository on a free GitHub plan**: rulesets, auto-merge and secret
-  scanning are skipped and recorded as pending in `docs/setup-status.md`.
+- **Private repository**: secret scanning needs GitHub Secret Protection, so it
+  is skipped unless your organisation has it. On a free plan, rulesets and
+  auto-merge are skipped too. Skipped settings are recorded as pending in
+  `docs/setup-status.md`.
 
 ## Installation
 

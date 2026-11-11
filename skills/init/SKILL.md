@@ -151,12 +151,18 @@ gh repo edit --enable-squash-merge --enable-merge-commit=false --enable-rebase-m
 gh repo edit --enable-wiki=false
 ```
 
-Security (skip secret scanning on a private repository with a free plan):
+Security:
 
 ```bash
-gh repo edit --enable-secret-scanning --enable-secret-scanning-push-protection
 gh api -X PUT "repos/{owner}/{repo}/vulnerability-alerts"
+gh repo edit --enable-secret-scanning --enable-secret-scanning-push-protection
 ```
+
+Secret scanning on a **private** repository does not depend on the personal plan
+(GitHub Pro is not enough): it needs GitHub Secret Protection, which only
+organisations on a paid plan can buy. On a private repository, run the secret
+scanning command only if the user says the organisation has it; otherwise skip
+it and record it under `## Pending`. On a public repository it is free.
 
 Labels:
 
@@ -186,6 +192,11 @@ Raise it to 1 if there are more collaborators.
 the repository without applying it, and list the skipped commands under
 `## Pending` in `docs/setup-status.md` so they can be run after an upgrade. From
 then on, merges are done without `--auto`, after checks are green.
+
+**Any setting the plan does not allow:** if a command fails because the feature
+is not available (HTTP 403/404/422 or a message about the plan), do not retry or
+work around it. Tell the user, record the command under `## Pending` in
+`docs/setup-status.md`, and continue with the rest of the block.
 
 **Done when:** the settings are applied (or recorded as pending) and the ruleset
 is active or saved.
