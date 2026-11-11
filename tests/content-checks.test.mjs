@@ -56,6 +56,14 @@ test('feature stops on a dirty tree and never pops a stash on the new branch', (
   }
 });
 
+test('status and init also read the setup file of the original workflow', () => {
+  for (const name of ['status', 'init']) {
+    const text = readFileSync(join(skillsDir, name, 'SKILL.md'), 'utf8');
+    assert.match(text, /docs\/setup-status\.md/, name);
+    assert.match(text, /docs\/setup-estado\.md/, name);
+  }
+});
+
 // --- splitSections ----------------------------------------------------------
 
 test('splitSections starts a section at each heading, ignoring # inside code fences', () => {
