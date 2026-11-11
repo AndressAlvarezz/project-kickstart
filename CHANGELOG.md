@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Content checks for shipped skills: paths, language, JSON templates and
   confirmation before outward-facing actions (#9).
 
+### Changed
+
+- `init` CI templates use current action versions, kept in sync with this
+  repository's workflows by a test (#11).
+
 ### Removed
 
 - Placeholder `kickstart` skill (#9).
