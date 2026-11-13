@@ -6,7 +6,7 @@
 A [Claude Code](https://claude.com/claude-code) plugin that bootstraps and runs
 professional GitHub projects: issue → plan → pull request → review → merge → release.
 
-> **Status:** early development (v0.1.0). Tested with Claude Code 2.1.322.
+> **Status:** stable (v1.0.0). Tested with Claude Code 2.1.322.
 > Feedback and bug reports are welcome.
 
 ## What it does
